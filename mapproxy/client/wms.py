@@ -66,7 +66,7 @@ class WMSClient(object):
         return resp
 
     def _check_resp(self, resp, url):
-        if not resp.headers.get('Content-type', 'image/').startswith('image/'):
+        if not resp.headers.get('Content-type', 'image/').lower().startswith('image/'):
             # log response depending on content-type
             if resp.headers['Content-type'].startswith(('text/', 'application/vnd.ogc')):
                 log_size = 8000 # larger xml exception
@@ -195,7 +195,7 @@ class WMSLegendClient(object):
         return self.http_client.open(url)
 
     def _check_resp(self, resp):
-        if not resp.headers.get('Content-type', 'image/').startswith('image/'):
+        if not resp.headers.get('Content-type', 'image/').lower().startswith('image/'):
             raise SourceError('no image returned from source WMS')
 
     def _query_url(self, query):
@@ -222,7 +222,7 @@ class WMSLegendURLClient(object):
         return ImageSource(resp, image_opts=ImageOptions(format=format))
 
     def _check_resp(self, resp):
-        if not resp.headers.get('Content-type', 'image/').startswith('image/'):
+        if not resp.headers.get('Content-type', 'image/').lower().startswith('image/'):
             raise SourceError('no image returned from static LegendURL')
 
     @property
